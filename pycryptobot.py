@@ -165,7 +165,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
         if app.isSimulation():
             app.sim_smartswitch = True
 
-        app.notifyTelegram(app.getMarket() + " smart switch from granularity 3600 (1 hour) to 900 (15 min)")
+        # app.notifyTelegram(app.getMarket() + " smart switch from granularity 3600 (1 hour) to 900 (15 min)")
 
         app.setGranularity(900)
         list(map(s.cancel, s.queue))
@@ -178,7 +178,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
         if app.isSimulation():
             app.sim_smartswitch = True
 
-        app.notifyTelegram(app.getMarket() + " smart switch from granularity 900 (15 min) to 3600 (1 hour)")
+        # app.notifyTelegram(app.getMarket() + " smart switch from granularity 900 (15 min) to 3600 (1 hour)")
 
         app.setGranularity(3600)
         list(map(s.cancel, s.queue))
@@ -381,55 +381,55 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                 log_text = '*** Candlestick Detected: Three White Soldiers ("Strong - Reversal - Bullish Pattern - Up")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if three_black_crows is True:
                 log_text = '* Candlestick Detected: Three Black Crows ("Strong - Reversal - Bearish Pattern - Down")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if morning_star is True:
                 log_text = '*** Candlestick Detected: Morning Star ("Strong - Reversal - Bullish Pattern - Up")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if evening_star is True:
                 log_text = '*** Candlestick Detected: Evening Star ("Strong - Reversal - Bearish Pattern - Down")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if three_line_strike is True:
                 log_text = '** Candlestick Detected: Three Line Strike ("Reliable - Reversal - Bullish Pattern - Up")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if abandoned_baby is True:
                 log_text = '** Candlestick Detected: Abandoned Baby ("Reliable - Reversal - Bullish Pattern - Up")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if morning_doji_star is True:
                 log_text = '** Candlestick Detected: Morning Doji Star ("Reliable - Reversal - Bullish Pattern - Up")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if evening_doji_star is True:
                 log_text = '** Candlestick Detected: Evening Doji Star ("Reliable - Reversal - Bearish Pattern - Down")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             if two_black_gapping is True:
                 log_text = '*** Candlestick Detected: Two Black Gapping ("Reliable - Reversal - Bearish Pattern - Down")'
                 Logger.info(log_text)
 
-                app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
+                # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') ' + log_text)
 
             ema_co_prefix = ''
             ema_co_suffix = ''
@@ -621,7 +621,8 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
 
                 # if live
                 if app.isLive():
-                    app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') BUY at ' + price_text)
+                    app.notifyTelegram(f'**{datetime.now}** **{app.getMarket()}** BUY at **{price_text}**')
+                    # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') BUY at ' + price_text)
 
                     if not app.isVerbose():
                         Logger.info(formatted_current_df_index + ' | ' + app.getMarket() + ' | ' + app.printGranularity() +  ' | ' + price_text + ' | BUY')
@@ -721,6 +722,9 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                     app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') SELL at ' +
                                       price_text + ' (margin: ' + margin_text + ', (delta: ' +
                                       str(round(price - state.last_buy_price, precision)) + ')')
+                    app.notifyTelegram(f'**{datetime.now}** **{app.getMarket()}** '
+                                       f'SELL at **{price_text}**, margin: {margin_text}')
+
 
                     if not app.isVerbose():
                         Logger.info(formatted_current_df_index + ' | ' + app.getMarket() + ' | ' + app.printGranularity() + ' | ' + price_text + ' | SELL')

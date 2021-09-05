@@ -250,15 +250,16 @@ class Strategy:
             Logger.warning("\n")
 
         # loss failsafe sell at trailing_stop_loss
+        dynamic_stop_loss = self.getDynamicTrailingStopLoss(margin, change_pcnt_high)
         if (
             self.app.trailingStopLoss() != None
-            and change_pcnt_high < self.getDynamicTrailingStopLoss(margin, change_pcnt_high) # self.app.trailingStopLoss()
+            and change_pcnt_high < dynamic_stop_loss # self.app.trailingStopLoss()
             and margin > self.app.trailingStopLossTrigger()
             and (self.app.allowSellAtLoss() or margin > 0)
         ):
             log_text = (
                 "! Trailing Stop Loss Triggered (< "
-                + str(self.app.trailingStopLoss())
+                + str(dynamic_stop_loss)
                 + "%)"
             )
             Logger.warning(log_text)
