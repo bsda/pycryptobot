@@ -621,7 +621,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
 
                 # if live
                 if app.isLive():
-                    app.notifyTelegram(f'**{datetime.now}** **{app.getMarket()}** BUY at **{price_text}**')
+                    app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** BUY at **{price_text}**')
                     # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') BUY at ' + price_text)
 
                     if not app.isVerbose():
@@ -722,7 +722,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                     app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') SELL at ' +
                                       price_text + ' (margin: ' + margin_text + ', (delta: ' +
                                       str(round(price - state.last_buy_price, precision)) + ')')
-                    app.notifyTelegram(f'**{datetime.now}** **{app.getMarket()}** '
+                    app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** '
                                        f'SELL at **{price_text}**, margin: {margin_text}')
 
 
