@@ -3,6 +3,7 @@ from pandas import DataFrame
 from models.PyCryptoBot import PyCryptoBot
 from models.AppState import AppState
 from models.helper.LogHelper import Logger
+import inspect
 import sys
 
 
@@ -37,6 +38,7 @@ class Strategy:
             "obv_pc",
             "eri_buy",
         ]
+        # Logger.info(f'isBuySignal called by {inspect.stack()[1][3]}')
 
         for indicator in required_indicators:
             if indicator not in self._df_last:
@@ -147,6 +149,7 @@ class Strategy:
         return False
 
     def isSellSignal(self) -> bool:
+        # Logger.info(f'isSellSignal called by {inspect.stack()[1][3]}')
         # required technical indicators or candle sticks for buy signal strategy
         required_indicators = ["ema12ltema26co", "macdltsignal"]
 
@@ -184,6 +187,7 @@ class Strategy:
     ) -> bool:
         # set to true for verbose debugging
         debug = False
+        # Logger.info(f'isSellTrigger called by {inspect.stack()[1][3]}')
 
         if debug:
             Logger.warning("\n*** isSellTrigger ***\n")
@@ -248,7 +252,7 @@ class Strategy:
         # loss failsafe sell at trailing_stop_loss
         if (
             self.app.trailingStopLoss() != None
-            and change_pcnt_high < self.app.trailingStopLoss()
+            and change_pcnt_high < self.getDynamicTrailingStopLoss(margin, change_pcnt_high) # self.app.trailingStopLoss()
             and margin > self.app.trailingStopLossTrigger()
             and (self.app.allowSellAtLoss() or margin > 0)
         ):
@@ -455,10 +459,33 @@ class Strategy:
 
         return False
 
+    def getDynamicTrailingStopLoss(self, margin, change_pcnt_high):
+        # Logger.info(f'getDynamicTrailingStopLoss called by {inspect.stack()[1][3]}')
+
+        if margin >=5 and margin <7:
+            trailing_stop_loss = -1.5
+        elif margin >= 7 and margin <= 10:
+            trailing_stop_loss = -2
+        elif margin > 10 and margin <= 15:
+            trailing_stop_loss = -2.5
+        elif margin > 15 and margin <= 20:
+            trailing_stop_loss = -3
+        elif margin > 20:
+            trailing_stop_loss = -4
+        else:
+            return self.app.trailingStopLoss()
+        Logger.info(f"{self.app.getMarket()} Dynamic Trailing Stop Loss:{trailing_stop_loss},"
+                    f" Margin: {margin},"
+                    f" Loss {change_pcnt_high}")
+        return trailing_stop_loss
+
     def getAction(self, price):
+        # Logger.info(f'getAction called by {inspect.stack()[1][3]}')
         if self.isBuySignal(price):
             return "BUY"
         elif self.isSellSignal():
             return "SELL"
         else:
             return "WAIT"
+
+
