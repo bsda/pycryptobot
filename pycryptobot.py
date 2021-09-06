@@ -760,7 +760,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                             {
                                 "date": datetime.now(),
                                 "market": app.getMarket(),
-                                "action": "BUY",
+                                "action": "SELL",
                                 "price": price,
                                 "base": state.last_buy_filled,
                                 "quote": state.last_sell_size,
