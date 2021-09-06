@@ -756,7 +756,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                         file = f'trades/{app.getMarket()}.csv'
                         transaction = pd.DataFrame(columns=['date', 'market', 'action', 'price', 'base',
                                                             'quote', 'margin', 'profit', 'fee'])
-                        transactiopn = transaction.append(
+                        transaction = transaction.append(
                             {
                                 "date": datetime.now(),
                                 "market": app.getMarket(),
