@@ -643,10 +643,12 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                     if os.path.isfile(file):
                         header = False
                         mode = 'a'
+                        ignore_index = True
                     else:
                         header = True
                         mode = 'w'
-                    transaction.to_csv(file, mode=mode, index=False, header=header)
+                        ignore_index = False
+                    transaction.to_csv(file, mode=mode, index=False, header=header, ignore_index=ignore_index)
                 except Exception as e:
                     Logger.error(f'Failed to write BUY transaction CSV: {e}')
 
@@ -772,10 +774,12 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                         if os.path.isfile(file):
                             header = False
                             mode = 'a'
+                            ignore_index=True
                         else:
                             header = True
                             mode = 'w'
-                        transaction.to_csv(file, mode=mode, index=False, header=header)
+                            ignore_index=False
+                        transaction.to_csv(file, mode=mode, index=False, header=header, ignore_index=ignore_index)
                     except Exception as e:
                         Logger.error(f'Failed to write SELL transaction CSV: {e}')
                         pass
