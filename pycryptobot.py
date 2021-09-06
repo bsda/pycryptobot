@@ -624,7 +624,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
 
                 # generate DF to record order
                 try:
-                    file = f'{app.getMarket()}.csv'
+                    file = f'trades/{app.getMarket()}.csv'
                     transaction = pd.DataFrame(columns=['date', 'market', 'action', 'price', 'base',
                                                         'quote', 'margin', 'profit', 'fee'])
                     transaction.append(
@@ -642,9 +642,11 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                     )
                     if os.path.isfile(file):
                         header = False
+                        mode = 'a'
                     else:
                         header = True
-                    transaction.to_csv(file, mode='a', index=False, header=header)
+                        mode = 'w'
+                    transaction.to_csv(file, mode=mode, index=False, header=header)
                 except Exception as e:
                     Logger.error(f'Failed to write BUY transaction CSV: {e}')
 
@@ -751,7 +753,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
 
                     # generate DF to record order
                     try:
-                        file = f'{app.getMarket()}.csv'
+                        file = f'trades/{app.getMarket()}.csv'
                         transaction = pd.DataFrame(columns=['date', 'market', 'action', 'price', 'base',
                                                             'quote', 'margin', 'profit', 'fee'])
                         transaction.append(
@@ -769,9 +771,11 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                         )
                         if os.path.isfile(file):
                             header = False
+                            mode = 'a'
                         else:
                             header = True
-                        transaction.to_csv(file, mode='a', index=False, header=header)
+                            mode = 'w'
+                        transaction.to_csv(file, mode=mode, index=False, header=header)
                     except Exception as e:
                         Logger.error(f'Failed to write SELL transaction CSV: {e}')
                         pass
