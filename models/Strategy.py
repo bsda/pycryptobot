@@ -463,7 +463,7 @@ class Strategy:
     def getDynamicTrailingStopLoss(self, margin, change_pcnt_high):
         # Logger.info(f'getDynamicTrailingStopLoss called by {inspect.stack()[1][3]}')
 
-        if margin >=4 and margin <5:
+        if margin >=3 and margin <5:
             trailing_stop_loss = -1
         elif margin >= 6 and margin <= 9:
             trailing_stop_loss = -1.5
