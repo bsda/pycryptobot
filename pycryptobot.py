@@ -645,8 +645,8 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                     else:
                         header = True
                     transaction.to_csv(file, mode='a', index=False, header=header)
-                except Exception:
-                    Logger.error('Failed to write BUY transaction CSV')
+                except Exception as e:
+                    Logger.error(f'Failed to write BUY transaction CSV: {e}')
 
                 # if live
                 if app.isLive():
@@ -772,8 +772,8 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                         else:
                             header = True
                         transaction.to_csv(file, mode='a', index=False, header=header)
-                    except Exception:
-                        Logger.error('Failed to write SELL transaction CSV')
+                    except Exception as e:
+                        Logger.error(f'Failed to write SELL transaction CSV: {e}')
                         pass
 
 
