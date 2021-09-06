@@ -268,6 +268,8 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
             trading_dataCopy = trading_data[trading_data['date'] <= current_sim_date].tail(300).copy()
             technical_analysis = TechnicalAnalysis(trading_dataCopy)
 
+        Logger.info(f'DEBUG state.last_buy_size={state.last_buy_size}, state.last_buy_price={state.last_buy_price} '
+                    f'price={price}, state.last_action={state.last_action}')
         if state.last_buy_size > 0 and state.last_buy_price > 0 and price > 0 and state.last_action == 'BUY':
             # update last buy high
             if price > state.last_buy_high:
@@ -524,12 +526,12 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                 Logger.info(output_text)
 
                 # Seasonal Autoregressive Integrated Moving Average (ARIMA) model (ML prediction for 3 intervals from now)
-                if not app.isSimulation():
-                    try:
-                        # prediction = technical_analysis.seasonalARIMAModelPrediction(int(app.getGranularity() / 60) * 3) # 3 intervals from now
-                        Logger.info(f'Seasonal ARIMA model predicts the closing price will be {str(round(prediction[1], 2))} at {prediction[0]} (delta: {round(prediction[1] - price, 2)})')
-                    except:
-                        pass
+                # if not app.isSimulation():
+                #     try:
+                #         # prediction = technical_analysis.seasonalARIMAModelPrediction(int(app.getGranularity() / 60) * 3) # 3 intervals from now
+                #         # Logger.info(f'Seasonal ARIMA model predicts the closing price will be {str(round(prediction[1], 2))} at {prediction[0]} (delta: {round(prediction[1] - price, 2)})')
+                #     except:
+                #         pass
 
                 if state.last_action == 'BUY':
                     # display support, resistance and fibonacci levels
@@ -968,7 +970,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
             state.iterations = state.iterations - 1
 
 
-        # force print this
+        # force print this shit
         if state.last_buy_size > 0 and state.last_buy_price > 0 and price > 0 and state.last_action == 'BUY':
             # show profit and margin if already bought
             Logger.info(
