@@ -8,6 +8,7 @@ import os
 import sched
 import sys
 import time
+import os.path
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -619,6 +620,32 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                 state.last_buy_price = price
                 state.last_buy_high = state.last_buy_price
 
+                # generate DF to record order
+                try:
+                    file = f'{app.getMarket()}.csv'
+                    transaction = pd.DataFrame(columns=['date', 'market', 'action', 'price', 'base',
+                                                        'quote', 'margin', 'profit', 'fee'])
+                    transaction.append(
+                        {
+                            "date": datetime.now(),
+                            "market": app.getMarket(),
+                            "action": "BUY",
+                            "price": price,
+                            "base": float(state.last_buy_size) / float(price),
+                            "quote": state.last_buy_size,
+                            "margin": "",
+                            "profit": "",
+                            "fee": ""
+                        }
+                    )
+                    if os.path.isfile(file):
+                        header = False
+                    else:
+                        header = True
+                    transaction.to_csv(file, mode='a', index=False, header=header)
+                except Exception:
+                    Logger.error('Failed to write BUY transaction CSV')
+
                 # if live
                 if app.isLive():
                     app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** BUY at **{price_text}**')
@@ -719,6 +746,35 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
             elif state.action == 'SELL':
                 # if live
                 if app.isLive():
+
+                    # generate DF to record order
+                    try:
+                        file = f'{app.getMarket()}.csv'
+                        transaction = pd.DataFrame(columns=['date', 'market', 'action', 'price', 'base',
+                                                            'quote', 'margin', 'profit', 'fee'])
+                        transaction.append(
+                            {
+                                "date": datetime.now(),
+                                "market": app.getMarket(),
+                                "action": "BUY",
+                                "price": price,
+                                "base": state.last_buy_filled,
+                                "quote": state.last_sell_size,
+                                "margin": margin,
+                                "profit": profit,
+                                "fee": sell_fee
+                            }
+                        )
+                        if os.path.isfile(file):
+                            header = False
+                        else:
+                            header = True
+                        transaction.to_csv(file, mode='a', index=False, header=header)
+                    except Exception:
+                        Logger.error('Failed to write SELL transaction CSV')
+                        pass
+
+
                     app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') SELL at ' +
                                       price_text + ' (margin: ' + margin_text + ', (delta: ' +
                                       str(round(price - state.last_buy_price, precision)) + ')')
