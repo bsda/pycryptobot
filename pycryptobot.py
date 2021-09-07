@@ -1009,7 +1009,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
             # poll every 1 minute
             list(map(s.cancel, s.queue))
             if margin > 5:
-                poll = 30
+                poll = 60
             else:
                 poll = 60
             s.enter(poll, 1, executeJob, (sc, app, state))
