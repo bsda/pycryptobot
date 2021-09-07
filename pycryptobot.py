@@ -1012,7 +1012,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                 poll = 30
             else:
                 poll = 60
-            s.enter(margin, 1, executeJob, (sc, app, state))
+            s.enter(poll, 1, executeJob, (sc, app, state))
 
 
 
