@@ -259,7 +259,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
         strategy = Strategy(app, state, df, state.iterations)
         state.action = strategy.getAction(price)
 
-        immediate_action = True
+        immediate_action = False
         margin, profit, sell_fee = 0, 0, 0
 
         # Reset the TA so that the last record is the current sim date 
