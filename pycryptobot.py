@@ -652,8 +652,8 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
 
                 # if live
                 if app.isLive():
-                    app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** BUY at **{price_text}**')
-                    # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') BUY at ' + price_text)
+                    # app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** BUY at **{price_text}**')
+                    app.notifyTelegram(f'{datetime.now()} {app.getMarket()} ({app.printGranularity()}) BUY at {price_text}')
 
                     if not app.isVerbose():
                         Logger.info(formatted_current_df_index + ' | ' + app.getMarket() + ' | ' + app.printGranularity() +  ' | ' + price_text + ' | BUY')
@@ -781,11 +781,11 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
                         pass
 
 
-                    app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') SELL at ' +
-                                      price_text + ' (margin: ' + margin_text + ', (delta: ' +
-                                      str(round(price - state.last_buy_price, precision)) + ')')
-                    app.notifyTelegram(f'**{datetime.now()}** **{app.getMarket()}** '
-                                       f'SELL at **{price_text}**, margin: {margin_text}')
+                    # app.notifyTelegram(app.getMarket() + ' (' + app.printGranularity() + ') SELL at ' +
+                    #                   price_text + ' (margin: ' + margin_text + ', (delta: ' +
+                    #                   str(round(price - state.last_buy_price, precision)) + ')')
+                    app.notifyTelegram(f'{datetime.now()} {app.getMarket()} '
+                                       f'SELL at {price_text}, margin: {margin_text}')
 
 
                     if not app.isVerbose():
@@ -1009,7 +1009,7 @@ def executeJob(sc=None, app: PyCryptoBot=None, state: AppState=None, trading_dat
             # poll every 1 minute
             list(map(s.cancel, s.queue))
             if margin > 5:
-                poll = 60
+                poll = 30
             else:
                 poll = 60
             s.enter(poll, 1, executeJob, (sc, app, state))

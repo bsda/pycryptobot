@@ -465,14 +465,14 @@ class Strategy:
 
         if margin >=3 and margin <5:
             trailing_stop_loss = -1.5
-        elif margin >= 5 and margin <= 9:
+        elif margin >= 5 and margin <= 10:
             trailing_stop_loss = -2
-        elif margin > 9 and margin <= 14:
+        elif margin > 10 and margin <= 16:
             trailing_stop_loss = -3
-        elif margin > 14 and margin <= 19:
+        elif margin > 16 and margin <= 20:
+            trailing_stop_loss = -3.5
+        elif margin > 20:
             trailing_stop_loss = -4
-        elif margin > 19:
-            trailing_stop_loss = -5
         else:
             return self.app.trailingStopLoss()
         Logger.info(f"{self.app.getMarket()} Dynamic Trailing Stop Loss:{trailing_stop_loss},"
