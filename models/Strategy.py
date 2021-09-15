@@ -464,13 +464,13 @@ class Strategy:
         # Logger.info(f'getDynamicTrailingStopLoss called by {inspect.stack()[1][3]}')
 
         if margin >=5 and margin <10:
-            trailing_stop_loss = -2
+            trailing_stop_loss = -1.5
         elif margin >= 10 and margin <= 15:
-            trailing_stop_loss = -3
+            trailing_stop_loss = -2
         elif margin > 15 and margin <= 20:
-            trailing_stop_loss = -4
+            trailing_stop_loss = -3
         elif margin > 20 and margin <= 25:
-            trailing_stop_loss = -4.5
+            trailing_stop_loss = -4
         elif margin > 25:
             trailing_stop_loss = -5
         else:
